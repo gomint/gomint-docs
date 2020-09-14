@@ -5,6 +5,7 @@ sidebar_label: Getting Started
 ---
 
 ## Introduction
+Hello and welcome.
 
 ## Installation
 
