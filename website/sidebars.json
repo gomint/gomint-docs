@@ -1,14 +1,11 @@
 {
   "docs": {
-<<<<<<< Updated upstream
     "Get Started": [
       "get-started/first-things-first",
       "get-started/setting-up-a-server"
     ],
     "First Category": ["doc2"],
     "Second Category": ["doc3"]
-=======
     "Getting Started": ["getting-started", "writing-your-first-plugin"]
->>>>>>> Stashed changes
   },
 }
