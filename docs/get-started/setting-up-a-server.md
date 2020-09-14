@@ -1,7 +1,7 @@
 ---
-id: doc1
-title: Latin-ish
-sidebar_label: Example Page
+id: setting-up-a-server
+title: Setting Up a Server
+sidebar_label: Setting Up a Server
 ---
 
 Check the [documentation](https://docusaurus.io) for how to use Docusaurus.
