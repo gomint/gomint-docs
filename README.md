@@ -3,5 +3,5 @@
 
 ## Setup Oneliner
 ```
-git clone https://github.com/gomint/gomint-docs && cd gomint-docs && npm install && npm start 
+git clone https://github.com/gomint/gomint-docs && cd gomint-docs && cd website && npm install && npm start 
 ```
