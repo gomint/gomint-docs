@@ -42,15 +42,13 @@ class Footer extends React.Component {
           <div>
             <h5>Community</h5>
             <a href={`${this.props.config.baseUrl}users`}>User Showcase</a>
-            <a
-              href="https://stackoverflow.com/questions/tagged/"
-              target="_blank"
-              rel="noreferrer noopener">
-              Stack Overflow
+            <a 
+              href="https://discord.gg/invite/qC4nJVN"
+              target="_blank">
+              Discord
             </a>
-            <a href="https://discordapp.com/">Project Chat</a>
             <a
-              href="https://twitter.com/"
+              href="https://twitter.com/gomintbe"
               target="_blank"
               rel="noreferrer noopener">
               Twitter
