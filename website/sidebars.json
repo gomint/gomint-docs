@@ -1,13 +1,7 @@
 {
   "docs": {
-    "Get Started": [
-      "get-started/first-things-first",
-      "get-started/setting-up-a-server"
-    ],
+    "Getting Started": ["getting-started", "writing-your-first-plugin"],
     "First Category": ["doc2"],
     "Second Category": ["doc3"]
-  },
-  "docs-other": {
-    "First Category": ["doc4", "doc5"]
   }
 }

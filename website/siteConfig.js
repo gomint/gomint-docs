@@ -22,7 +22,7 @@ const users = [
 
 const siteConfig = {
   docsSideNavCollapsible: true,
-  
+
   title: '', // Title for your website.
   tagline: 'GoMint Documentation',
   url: 'https://docs.gomint.io', // Your website URL
@@ -40,10 +40,10 @@ const siteConfig = {
 
   // For no header links in the top nav bar -> headerLinks: [],
   headerLinks: [
-    {doc: 'get-started/first-things-first', label: 'Docs'},
-    {doc: 'doc4', label: 'API'},
+    {doc: 'getting-started', label: 'Getting Started'},
+    {doc: 'guides', label: 'Guides'},
     {page: 'help', label: 'Help'},
-    {blog: true, label: 'Blog'},
+//     {blog: true, label: 'Blog'},
   ],
 
   // If you have users set above, you add it here:
@@ -75,7 +75,7 @@ const siteConfig = {
   */
 
   // This copyright info is used in /core/Footer.js and blog RSS/Atom feeds.
-  copyright: `Copyright © ${new Date().getFullYear()} Your Name or Your Company Name`,
+  copyright: `Copyright © ${new Date().getFullYear()} GoMint Team`,
 
   highlight: {
     // Highlight.js theme to use for syntax highlighting in code blocks.
