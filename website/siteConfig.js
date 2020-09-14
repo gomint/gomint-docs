@@ -21,6 +21,8 @@ const users = [
 ];
 
 const siteConfig = {
+  docsSideNavCollapsible: true,
+  
   title: '', // Title for your website.
   tagline: 'GoMint Documentation',
   url: 'https://docs.gomint.io', // Your website URL
@@ -38,7 +40,7 @@ const siteConfig = {
 
   // For no header links in the top nav bar -> headerLinks: [],
   headerLinks: [
-    {doc: 'doc1', label: 'Docs'},
+    {doc: 'get-started/first-things-first', label: 'Docs'},
     {doc: 'doc4', label: 'API'},
     {page: 'help', label: 'Help'},
     {blog: true, label: 'Blog'},
