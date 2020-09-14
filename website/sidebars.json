@@ -1,6 +1,6 @@
 {
   "docs": {
-    "Getting Started": ["getting-started", "writing-your-first-plugin"]
+    "Getting Started": ["getting-started", "writing-your-first-plugin"],
     "First Category": ["doc2"],
     "Second Category": ["doc3"]
   },
