@@ -65,8 +65,8 @@ class HomeSplash extends React.Component {
           <ProjectTitle tagline={siteConfig.tagline} title={siteConfig.title} />
           <PromoSection>
             <Button href="#try">Try It Out</Button>
-            <Button href={docUrl('doc1.html')}>Example Link</Button>
-            <Button href={docUrl('doc2.html')}>Example Link 2</Button>
+            <Button href={docUrl('getting-started.html')}>Getting Started</Button>
+            <Button href={docUrl('guides.html')}>Guides</Button>
           </PromoSection>
         </div>
       </SplashContainer>
@@ -106,12 +106,10 @@ class Index extends React.Component {
         {[
           {
             content:
-              'To make your landing page more attractive, use illustrations! Check out ' +
-              '[**unDraw**](https://undraw.co/) which provides you with customizable illustrations which are free to use. ' +
-              'The illustrations you see on this page are from unDraw.',
+              'Download the latest build of GoMint [here](https://github.com/GoMint/GoMint/actions?query=workflow%3A%22Java+CI%22).',
             image: `${baseUrl}img/undraw_code_review.svg`,
             imageAlign: 'left',
-            title: 'Wonderful SVG Illustrations',
+            title: 'Download the Latest Build',
           },
         ]}
       </Block>

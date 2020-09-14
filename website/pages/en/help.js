@@ -43,7 +43,10 @@ function Help(props) {
           <header className="postHeader">
             <h1>Need help?</h1>
           </header>
-          <p>This project is maintained by a dedicated group of people.</p>
+          <p>
+          This part of the website provides documentation for the API and internal
+          functionality of the GoMint software. If you need help, please visit <a href="https://gomint.io">our main website</a>
+          </p>
           <GridBlock contents={supportLinks} layout="threeColumn" />
         </div>
       </Container>
