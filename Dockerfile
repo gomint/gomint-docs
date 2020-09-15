@@ -1,10 +1,12 @@
 FROM node:lts
+FROM nginx:alpine
+
+COPY ./docs /app/docs
+COPY ./website /app/website
 
 WORKDIR /app/website
 
-EXPOSE 3000 35729
-COPY ./docs /app/docs
-COPY ./website /app/website
-RUN yarn install
+CMD ["npm", "install"]
+CMD ["npm", "run", "build"]
 
-CMD ["yarn", "start"]
+COPY ./build/gomint /usr/share/nginx/html
