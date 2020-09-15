@@ -1,12 +1,12 @@
-FROM node:lts
-FROM nginx:alpine
+FROM node:12 AS node
 
 COPY ./docs /app/docs
 COPY ./website /app/website
 
 WORKDIR /app/website
 
-CMD ["npm", "install"]
-CMD ["npm", "run", "build"]
+RUN npm install
+RUN npm run build
 
-COPY ./build/gomint /usr/share/nginx/html
+FROM nginx:latest AS nginx
+COPY --from=node /app/website/build/gomint /usr/share/nginx/html
