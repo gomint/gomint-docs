@@ -1,5 +1,5 @@
 ---
-id: api-getting-started
+id: getting-started
 title: Introduction to the GoMint API
 sidebar_label: Introduction to GoMint API
 ---

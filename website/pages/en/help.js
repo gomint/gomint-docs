@@ -27,12 +27,12 @@ function Help(props) {
       title: 'Browse Docs',
     },
     {
-      content: 'Ask questions about the documentation and project',
+      content: 'Ask questions about the documentation and project. Join our [Discord](https://discord.gg/invite/qC4nJVN)',
       title: 'Join the community',
     },
     {
       content: "Find out what's new with this project",
-      title: 'Stay up to date',
+      title: 'Stay up to date through the [blog](/blog)',
     },
   ];
 
