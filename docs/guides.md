@@ -12,6 +12,7 @@ title: Guides
 
 * [API Introduction](/docs/development/getting-started)
 * [Writing Your First Plugin](/docs/development/creating-first-plugin)
+* [Writing Your First Command](/docs/development/creating-your-first-command)
 
 ### Resources
 * [Javadoc](https://s.janmm14.de/gomint-javadoc)
