@@ -1,10 +1,12 @@
-FROM node:lts
+FROM node:12 AS node
+
+COPY ./docs /app/docs
+COPY ./website /app/website
 
 WORKDIR /app/website
 
-EXPOSE 3000 35729
-COPY ./docs /app/docs
-COPY ./website /app/website
-RUN yarn install
+RUN npm install
+RUN npm run build
 
-CMD ["yarn", "start"]
+FROM nginx:latest AS nginx
+COPY --from=node /app/website/build/gomint /usr/share/nginx/html

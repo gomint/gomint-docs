@@ -6,8 +6,8 @@ sidebar_label: Getting Started
 
 ## Introduction
 
-## Installation
+## Installation of the Server
 
-## IDE Setup
+## Basic Configuration
 
-## Configuration
+## Concluding Thoughts

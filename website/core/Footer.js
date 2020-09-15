@@ -42,7 +42,6 @@ class Footer extends React.Component {
           <div>
             <h5>Community</h5>
             <a href={`${this.props.config.baseUrl}users`}>User Showcase</a>
-<<<<<<< Updated upstream
             <a 
               href="https://discord.gg/invite/qC4nJVN"
               target="_blank">
@@ -54,11 +53,8 @@ class Footer extends React.Component {
               rel="noreferrer noopener">
               Twitter
             </a>
-=======
-
             <a href="https://gomint.io">GoMint.io</a>
             <a href="https://github.com/gomint/">GitHub</a>
->>>>>>> Stashed changes
           </div>
           <div>
             <h5>More</h5>
