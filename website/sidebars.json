@@ -1,12 +1,12 @@
 {
   "docs": {
     "Getting Started": [
-      "getting-started",
-      "general-configuration"
+      "get-started/getting-started",
+      "get-started/general-configuration"
     ],
-    "API": [
-      "api/api-getting-started",
-      "api/api-creating-first-plugin"
+    "Development": [
+      "development/getting-started",
+      "development/creating-first-plugin"
     ]
   }
 }
