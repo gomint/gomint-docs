@@ -1,12 +1,13 @@
 {
   "docs": {
-    "Getting Started": [
-      "get-started/getting-started",
-      "get-started/general-configuration"
+    "Get Started": [
+      "get-started/first-things-first",
+      "get-started/setting-up-a-server"
     ],
     "Development": [
       "development/getting-started",
-      "development/creating-first-plugin"
+      "development/creating-first-plugin",
+      "development/creating-your-first-command"
     ]
   }
 }
