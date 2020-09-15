@@ -1,0 +1,13 @@
+name: Build Docker image
+on: [push]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:    
+    - name: Build and push image
+      uses: docker/build-push-action@v1
+      with:
+        username: gomint
+        password: ${{ secrets.DOCKER_PASSWORD }}
+        repository: gomint/docs
+        tags: ${{ github.sha }}
