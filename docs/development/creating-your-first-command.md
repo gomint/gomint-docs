@@ -63,7 +63,7 @@ It is important to verify that the sender was the correct type before performing
 @Name("velocity")
 @Description("Give custom velocity to the player who runs it")
 public class CommandVelocity extends Command {
-  
+
   @Override
   public CommandOutput execute(CommandSender commandSender, String alias, Map<String, Object> arguments){
     CommandOutput output = new CommandOutput();
