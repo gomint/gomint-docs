@@ -1,6 +1,7 @@
 ---
 id: guides
-title: Guides
+title: Index of Guides
+sidebar_label: Index of Guides
 ---
 
 ## Introductory Guides
