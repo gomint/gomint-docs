@@ -41,4 +41,13 @@ body {
 
 a {
   font-weight: 600;
+  color: #00C069;
+}
+
+.onPageNav .toc-headings>li>a.active, .onPageNav .toc-headings>li>a.hover {
+  color: #00C069;
+}
+
+.toc .toggleNav ul li.navListItemActive a, .toc .toggleNav ul li a:focus, .toc .toggleNav ul li a:hover {
+  color: #00C069;
 }
