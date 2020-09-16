@@ -1,5 +1,7 @@
 # GoMint Documentation
 
+[Main Site](https://docs.gomint.io)
+
 This repository stores the documentation for [GoMint](https://github.com/gomint/gomint), a Bedrock edition server software.
 
 ⚠ Work In Progress
