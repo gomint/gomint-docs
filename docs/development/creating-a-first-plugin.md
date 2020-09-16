@@ -37,4 +37,4 @@ Annotations:
 |------------|-----------------|---------------------------|---------------------------------------------------------------------------------------|
 | PluginName | String          | Your plugin's name        |                                                                                       |  
 | Version    | Int, Int        | ```major```, ```minor```  |                                                                                       |
-| Startup    | StartupPriority | See Enums                 | [JavaDoc](https://janmm14.de/static/gomint/index.html?gomint.api/module-summary.html) |   
+| Startup    | StartupPriority | See Enums                 | [JavaDoc](https://janmm14.de/static/gomint/index.html?gomint.api/io/gomint/plugin/StartupPriority.html) |   
