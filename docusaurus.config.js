@@ -3,7 +3,7 @@ module.exports = {
   tagline: 'The place to go if you would like to learn more about GoMint',
   url: 'https://docs.gomint.io/',
   baseUrl: '/',
-  onBrokenLinks: 'throw',
+  onBrokenLinks: 'warn',
   favicon: 'img/favicon.ico',
   organizationName: 'gomint',
   projectName: 'gomint',
@@ -43,12 +43,8 @@ module.exports = {
           title: 'Docs',
           items: [
             {
-              label: 'Style Guide',
-              to: 'docs/',
-            },
-            {
-              label: 'Second Doc',
-              to: 'docs/doc2/',
+              label: 'Guides',
+              to: 'docs/guides',
             },
           ],
         },
