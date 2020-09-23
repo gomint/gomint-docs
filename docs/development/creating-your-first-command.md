@@ -47,7 +47,7 @@ which must be overridden from ```io.gomint.command.Command``` type. Our ```Comma
 public class CommandVelocity extends Command {
 
   @Override
-  public CommandOutput execute(CommandSender commandSender, String alias, Map<String, Object> arguments){
+  public CommandOutput execute(CommandSender commandSender, String alias, Map<String, Object> arguments) {
     CommandOutput output = new CommandOutput();
 
     return output;
@@ -65,15 +65,15 @@ It is important to verify that the sender was the correct type before performing
 public class CommandVelocity extends Command {
 
   @Override
-  public CommandOutput execute(CommandSender commandSender, String alias, Map<String, Object> arguments){
+  public CommandOutput execute(CommandSender commandSender, String alias, Map<String, Object> arguments) {
     CommandOutput output = new CommandOutput();
 
-    if(commandSender instanceof PlayerCommandSender){
-      EntityPlayer player = (EntityPlayer)commandSender;
+    if (commandSender instanceof PlayerCommandSender) {
+      EntityPlayer player = (EntityPlayer) commandSender;
 
-      // Now that we have casted to an EntityPlayer, we can use those methods on the object.
+      // Now that we have casted the CommandSender to an EntityPlayer, we can use those methods on the object.
       player.setVelocity(new Vector(0, 2, 0));
-    }else if(commandSender instanceof ConsoleCommandSender){
+    } else if (commandSender instanceof ConsoleCommandSender) {
       // TODO: Let's add arguments in a moment!
     }
 
@@ -99,9 +99,9 @@ For more complicated commands that require parameters to be passed, you can both
 ### <span id="overload"></span> Overload Annotation
 When using arguments, we can validate their type as well as assign them names. This allows us to anticipate not only the way the arguments of the command are organized, but their types, and, to a degree, validate their content.
 
-For arguments, the ```OverLoad``` annotation is used. Within this annotation, ```Parameter``` annotations can be used to define a name for the arguments passed, a validator to use, and specify whether or not the parameter is optional.
+For arguments, the ```Overload``` annotation is used. Within this annotation, ```Parameter``` annotations can be used to define a name for the arguments passed, a validator to use, and specify whether or not the parameter is optional.
 
-__Note:__ _For each ```OverLoad``` annotation, your command will have a different way to organize parameters_
+__Note:__ _For each ```Overload``` annotation, your command will have a different way to organize parameters. Multiple ```Overload``` annotations can be summarized by using the ```Overloads``` annotation._
 
 The parameter annotation accepts the following fields:
 * ```name``` - String: The name of the parameter (stored as a key in the ```arguments``` map)
@@ -111,11 +111,11 @@ The parameter annotation accepts the following fields:
 
 ```java
 // Our velocity command should be able to accept a parameter for a player name and the specified velocity they should receive.
-@OverLoad({
-  @Parameter( name = "player", validator = TargetValidator.class, optional = true)
-  @Parameter( name = "velocity_x", validator = FloatValidator.class, optional = true)
-  @Parameter( name = "velocity_y", validator = FloatValidator.class, optional = true)
-  @Parameter( name = "velocity_z", validator = FloatValidator.class, optional = true)
+@Overload({
+  @Parameter(name = "player", validator = TargetValidator.class, optional = true)
+  @Parameter(name = "velocity_x", validator = FloatValidator.class, optional = true)
+  @Parameter(name = "velocity_y", validator = FloatValidator.class, optional = true)
+  @Parameter(name = "velocity_z", validator = FloatValidator.class, optional = true)
 })
 ```
 
@@ -124,17 +124,18 @@ The arguments passed when a command is executed by the player/console are passed
 
 ```java
     // Continued from above
-    else if(commandSender instanceof ConsoleCommandSender){
-      EntityPlayer player = (EntityPlayer) arguments.get( "player" );
+    else if (commandSender instanceof ConsoleCommandSender) {
+      EntityPlayer player = (EntityPlayer) arguments.get("player");
       Float velocity_x = (Float) arguments.getOrDefault("velocity_x", 0f);
       Float velocity_y = (Float) arguments.getOrDefault("velocity_y", 2f);
       Float velocity_z = (Float) arguments.getOrDefault("velocity_z", 0f);
 
       // If all the parameters were passed, the player will receive the specified velocity.
-      // Otherwise, they will receive a velocity of (0, 2, 0).
+      // Otherwise, they will receive a velocity of (x: 0, y: 2, z: 0).
       player.setVelocity(new Vector(velocity_x, velocity_y, velocity_z));
 
-      output.success("Applied velocity");
+      // When the velocity was successfully applied to the given player, a messagae will be sent to the ConsoleCommandSender.
+      output.success("Applied velocity to " + player.getNameTag());
     }
 ```
 
