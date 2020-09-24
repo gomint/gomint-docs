@@ -107,10 +107,9 @@ The following methods are inherited from ```Plugin``` and can be used to install
 * ```onStartup()``` - Invoked when the plugin has been installed.
 * ```onUninstall()``` - Invoked when the plugin has been uninstalled.
 * ```isInstalled()``` - Can be invoked to determine if the plugin has been installed yet.
-* ```registerCommand(Command c)``` - Invoke to register your own commands.
-* ```registerListener(EventListener e)``` - Invoke to register your own event listeners.
-* ```unregisterListener(EventListener e)``` - Invoke to remove an event listener.
-* ```getResourceAsStream(String name)``` - Returns a resource from within the JAR or container.
+* ```registerCommand(io.gomint.command.Command)``` - Invoke to register your own commands.
+* ```registerListener(io.gomint.event.EventListener)``` - Invoke to register your own event listeners.
+* ```unregisterListener(io.gomint.event.EventListener)``` - Invoke to remove an event listener.
 * ```getDataFolder()``` - Returns the data folder for this plugin as a File object.
 * ```getPluginManager()``` - Returns the plugin manager of the GoMint server.
 * ```getName() ``` - Returns the name of this plugin.
