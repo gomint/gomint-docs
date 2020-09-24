@@ -1,0 +1,71 @@
+/* stylelint-disable docusaurus/copyright-header */
+/**
+ * Any CSS included here will be global. The classic template
+ * bundles Infima by default. Infima is a CSS framework designed to
+ * work well for content-centric websites.
+ */
+
+/* You can override the default Infima variables here. */
+:root {
+  --ifm-color-primary-lightest: #92e0d0;
+  --ifm-color-primary-lighter: #0CF18A;
+  --ifm-color-primary-light: #0ee684;
+  --ifm-color-primary: #0cd47a;
+  --ifm-color-primary-dark: #0ac06e;
+  --ifm-color-primary-darker: #0aad64;
+  --ifm-color-primary-darkest: #089b59;
+  --ifm-code-font-size: 95%;
+  --logo-grayscale-percentage: 100%;
+  --logo-brightness-percentage: 0%;
+}
+
+@import url('https://rsms.me/inter/inter.css');
+
+html { 
+  font-family: 'Inter', sans-serif; 
+}
+
+html[data-theme='dark'] {
+  --ifm-footer-background-color: #0a101b;
+  --ifm-table-stripe-background: #0f1a2e;
+  --ifm-code-background: #132038;
+  --ifm-background-surface-color: #0d1729;
+  --ifm-background-color: #0b1322;
+  --ifm-color-primary-lightest: #92e0d0;
+  --ifm-color-primary-lighter: #0CF18A;
+  --ifm-color-primary-light: #0ee684;
+  --ifm-color-primary: #14dde4;
+  --ifm-color-primary-dark: #0ac06e;
+  --ifm-color-primary-darker: #0aad64;
+  --ifm-color-primary-darkest: #089b59;
+  --logo-grayscale-percentage: 100%;
+  --logo-brightness-percentage: 200%;
+
+}
+
+@supports (font-variation-settings: normal) {
+  html { 
+    font-family: 'Inter var', sans-serif; 
+  }
+}
+
+.sidebar_node_modules-\@docusaurus-theme-classic-lib-theme-DocSidebar- {
+  background-color: var(--ifm-background-surface-color);
+}
+
+.navbar__brand {
+  margin-left: 10px;
+}
+
+.navbar__logo {
+  width: 40px;
+}
+
+.navbar__title {
+  padding-left: 5px;
+}
+
+.navbar__logo {
+  filter: grayscale(var(--logo-grayscale-percentage)) brightness(var(--logo-brightness-percentage));
+}
+
