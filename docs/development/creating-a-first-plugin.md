@@ -85,7 +85,7 @@ Annotations:
 | Startup    | StartupPriority | See Enums                 | [JavaDoc](https://janmm14.de/static/gomint/index.html?gomint.api/module-summary.html) |   
 
 ```java
-package io.gomint.testplugin;
+package me.plugincrafter.demo;
 
 import io.gomint.plugin.Plugin;
 import io.gomint.plugin.PluginName;
@@ -107,9 +107,9 @@ The following methods are inherited from ```Plugin``` and can be used to install
 * ```onStartup()``` - Invoked when the plugin has been installed.
 * ```onUninstall()``` - Invoked when the plugin has been uninstalled.
 * ```isInstalled()``` - Can be invoked to determine if the plugin has been installed yet.
-* ```registerCommand(Command command)``` - Invoke to register your own commands.
-* ```registerListener(EventListener listener)``` - Invoke to register your own event listeners.
-* ```unregisterListener(EventListener listener)``` - Invoke to remove an event listener.
+* ```registerCommand(Command c)``` - Invoke to register your own commands.
+* ```registerListener(EventListener e)``` - Invoke to register your own event listeners.
+* ```unregisterListener(EventListener e)``` - Invoke to remove an event listener.
 * ```getResourceAsStream(String name)``` - Returns a resource from within the JAR or container.
 * ```getDataFolder()``` - Returns the data folder for this plugin as a File object.
 * ```getPluginManager()``` - Returns the plugin manager of the GoMint server.
