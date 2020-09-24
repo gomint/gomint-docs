@@ -17,30 +17,27 @@ Before you begin writing a plugin, you will need a ```pom.xml``` for the plugin.
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xmlns="http://maven.apache.org/POM/4.0.0"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <parent>
-        <artifactId>gomint</artifactId>
-        <groupId>io.gomint</groupId>
-        <version>1.0.0-SNAPSHOT</version>
-    </parent>
-
     <modelVersion>4.0.0</modelVersion>
 
     <!-- Here is where you will substitute your plugin's information -->
     <groupId>io.gomint.testplugin</groupId>
-    <artifactId>gomint-test-plugin</artifactId>
+    <artifactId>gomint-testplugin</artifactId>
+    <version>1.0-SNAPSHOT</version>
 
     <!-- Here is where you will substitute your plugin's name and description -->
     <name>GoMint Test Plugin</name>
     <description>A plugin to test and see GoMint's API design</description>
 
     <dependencies>
+        <!-- This is the GoMint API Maven Library which is necessary to create a plugin -->
         <dependency>
             <groupId>io.gomint</groupId>
             <artifactId>gomint-api</artifactId>
             <version>1.0.0-SNAPSHOT</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 
@@ -66,13 +63,13 @@ where the initialization and cleanup of the plugin will take place, as well as t
 registration of event handlers, new logic, etc. In lieu of a ```main()``` method, the plugin management system handles the initialization of plugins, so it is important that the annotations and types are setup correctly.
 
 ```java
-package me.plugincrafter.Demo;
+package io.gomint.testplugin;
 
 import io.gomint.plugin.Plugin;
 
 // The class MUST extend Plugin. It is common for new users to write
 // 'JavaPlugin', as they are coming from Bukkit/Spigot.
-public class DemoMain extends Plugin { }
+public class TestPlugin extends Plugin {}
 ```
 
 ## Step Two - The Annotations
@@ -84,8 +81,23 @@ Annotations:
 | Annotation | Type            | Value                     | See Also                                                                              |
 |------------|-----------------|---------------------------|---------------------------------------------------------------------------------------|
 | PluginName | String          | Your plugin's name        |                                                                                       |  
-| Version    | Int, Int        | ```major```, ```minor```  |                                                                                       |
+| Version    | int, int        | ```major```, ```minor```  |                                                                                       |
 | Startup    | StartupPriority | See Enums                 | [JavaDoc](https://janmm14.de/static/gomint/index.html?gomint.api/module-summary.html) |   
+
+```java
+package me.plugincrafter.demo;
+
+import io.gomint.plugin.Plugin;
+import io.gomint.plugin.PluginName;
+import io.gomint.plugin.Startup;
+import io.gomint.plugin.StartupPriority;
+import io.gomint.plugin.Version;
+
+@PluginName("TestPlugin")
+@Version(major = 1, minor = 0)
+@Startup(StartupPriority.STARTUP)
+public class TestPlugin extends Plugin {}
+```
 
 ## ```Plugin``` Available Methods
 
@@ -100,5 +112,9 @@ The following methods are inherited from ```Plugin``` and can be used to install
 * ```unregisterListener(EventListener e)``` - Invoke to remove an event listener.
 * ```getResourceAsStream(String name)``` - Returns a resource from within the JAR or container.
 * ```getDataFolder()``` - Returns the data folder for this plugin as a File object.
+* ```getPluginManager()``` - Returns the plugin manager of the GoMint server.
+* ```getName() ``` - Returns the name of this plugin.
+* ```getVersion()``` - Returns the version of this plugin.
+* ```getLogger()``` - Returns the Logger of this plugin.
 * ```getScheduler()``` - Returns the plugin scheduler.
 * ```getServer()``` - Returns an instance of the GoMint server.
