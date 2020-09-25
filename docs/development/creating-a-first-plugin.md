@@ -63,7 +63,7 @@ where the initialization and cleanup of the plugin will take place, as well as t
 registration of event handlers, new logic, etc. In lieu of a ```main()``` method, the plugin management system handles the initialization of plugins, so it is important that the annotations and types are setup correctly.
 
 ```java
-package io.gomint.testplugin;
+package me.plugincrafter.demo;
 
 import io.gomint.plugin.Plugin;
 
