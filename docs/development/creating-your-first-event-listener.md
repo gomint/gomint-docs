@@ -19,11 +19,10 @@ public class MyFirstEventHandler implements EventListener {}
 ```
 
 Now we marked the class for us and the api as event listener. Next up we need to define which event(s) we want to listen to in this event listener.
-This is done simply by creating a method annotated with @EventHandler inside:
+This is done simply by creating a method annotated with `@EventHandler` inside:
 
 ```java
 public class MyFirstEventHandler implements EventListener {
-
   @EventHandler
   public void onExplode(EntityExplodeEvent event) {
     // this method gets called every time an entity explodes
@@ -36,7 +35,6 @@ Now we just need to implement some logic. We can praise explosions for example w
 
 ```java
 public class MyFirstEventHandler implements EventListener {
-
   @EventHandler
   public void onExplode(EntityExplodeEvent event) {
     GoMint.instance().getPlayers().forEach(p -> {
