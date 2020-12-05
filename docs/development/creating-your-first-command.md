@@ -18,7 +18,7 @@ public class CommandVelocity extends Command {}
 
 ## Using Annotations
 
-Commands in GoMint are based on annotations and injection. There are two required annotations that each command must have, but the full list of annotations for commands are below. GoMint will detect all classes in your plugin which extend `Command` and have at least the required annotations and will automatically create an instance and register it.
+Commands in GoMint are based on annotations and injection. There are two required annotations that each command must have, but the full list of annotations for commands are below. GoMint will detect all classes in your plugin which extend `Command` and have at least the required annotations and will automatically create an instance and register it. For custom conditions on command registration you need to use [methods for describing your command](#commandmethod) instead.
 
 | Annotation  | Type            | Value                                              | Required? | Repeatable? |
 |-------------|-----------------|----------------------------------------------------|-----------|-------------|
@@ -140,9 +140,11 @@ The arguments passed when a command is executed by the player/console are passed
 ```
 
 ## Additional Information
-### Adding Commands Using Methods
+### <span id="commandmethod"></span>  Adding Commands Using Methods
 
 If you want to have commands registered based on custom conditions, you need to use method calls to describe your command instead of annotations.
+
+You register your method-based described commands with the `registerCommand(/* your command instance*/);` method present in the `Plugin` object (your main class).
 
 The name of the command has to be delivered as parameter of the Command class constructor and the description has to be set with the `description(String)` method:
 
@@ -180,7 +182,7 @@ Calling not repeatable methods again will overwrite the existing value.
 Each call to `overload()` will add a new overload to your method. By default the overload is empty. To add a parameter you have to call the `param(...)` functions on the return `ComandOverload` object.
 
 The param function takes the name of parameter first, next up is the ParamValidator. The third argument is the optional boolean, which is itself optional and defaults to false as well.
-The ParamValidator needs to be instantiated here instead of it class getting referenced.
+The ParamValidator needs to be instantiated here instead of it's class.
 
 ```java
 public CommandVelocity() {
