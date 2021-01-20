@@ -51,8 +51,65 @@ Before you begin writing a plugin, you will need a ```pom.xml``` for the plugin.
                 </includes>
             </resource>
         </resources>
+           
+        <!-- Needed for GoMint to load plugin external dependencies -->
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>3.1.2</version>
+                <executions>
+                    <execution>
+                        <id>copy-dependencies-netty-codecs</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <includeArtifactIds>netty-codec-http,netty-codec-http2,netty-handler-proxy</includeArtifactIds>
+                            <outputDirectory>${project.build.directory}/classes/dependency</outputDirectory>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>copy-dependencies-discord</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <excludeScope>provided</excludeScope>
+                            <excludeGroupIds>io.netty</excludeGroupIds>
+                            <outputDirectory>${project.build.directory}/classes/dependency</outputDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
     </build>
 
+    <!-- Include the snapshot repository we are currently on for latest master builds -->
+    <repositories>
+        <repository>
+            <id>central</id>
+            <url>https://repo1.maven.org/maven2</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+        </repository>
+    </repositories>
 </project>
 ```
 
@@ -110,10 +167,10 @@ The following methods are inherited from ```Plugin``` and can be used to install
 * ```registerCommand(io.gomint.command.Command)``` - Invoke to register your own commands.
 * ```registerListener(io.gomint.event.EventListener)``` - Invoke to register your own event listeners.
 * ```unregisterListener(io.gomint.event.EventListener)``` - Invoke to remove an event listener.
-* ```getDataFolder()``` - Returns the data folder for this plugin as a File object.
-* ```getPluginManager()``` - Returns the plugin manager of the GoMint server.
-* ```getName() ``` - Returns the name of this plugin.
-* ```getVersion()``` - Returns the version of this plugin.
-* ```getLogger()``` - Returns the Logger of this plugin.
-* ```getScheduler()``` - Returns the plugin scheduler.
-* ```getServer()``` - Returns an instance of the GoMint server.
+* ```dataFolder()``` - Returns the data folder for this plugin as a File object.
+* ```pluginManager()``` - Returns the plugin manager of the GoMint server.
+* ```name() ``` - Returns the name of this plugin.
+* ```version()``` - Returns the version of this plugin.
+* ```logger()``` - Returns the Logger of this plugin.
+* ```scheduler()``` - Returns the plugin scheduler.
+* ```server()``` - Returns an instance of the GoMint server.
