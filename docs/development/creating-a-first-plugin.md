@@ -135,11 +135,11 @@ Rather than use a configuration file that is packed into the JAR file to describ
 
 Annotations:
 
-| Annotation | Type            | Value                     | See Also                                                                              |
-|------------|-----------------|---------------------------|---------------------------------------------------------------------------------------|
-| PluginName | String          | Your plugin's name        |                                                                                       |  
-| Version    | int, int        | ```major```, ```minor```  |                                                                                       |
-| Startup    | StartupPriority | See Enums                 | [JavaDoc](https://janmm14.de/static/gomint/index.html?gomint.api/module-summary.html) |   
+| Annotation | Type            | Value                     | See Also                                                                                                |
+|------------|-----------------|---------------------------|---------------------------------------------------------------------------------------------------------|
+| PluginName | String          | Your plugin's name        |                                                                                                         |  
+| Version    | int, int        | ```major```, ```minor```  |                                                                                                         |
+| Startup    | StartupPriority | See Enums                 | [JavaDoc](https://janmm14.de/static/gomint/index.html?gomint.api/io/gomint/plugin/StartupPriority.html) |   
 
 ```java
 package me.plugincrafter.demo;
