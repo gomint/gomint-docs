@@ -15,5 +15,8 @@ sidebar_label: Getting Started
 
 ## Concluding Thoughts
 
-You may want to visit the next tutorial about [configuring](/docs/get-started/general-configuration) your new server.
+You may want to visit the next tutorial about [configuring](general-configuration.md) your new server.
+
+If you want to know more about gomint's unique world system, visit the [Plugin World Restrictions](plugin-world-restriction.md) information page.
+
 Or, if you want to dive into writing custom plugins, visit the [first plugin](/docs/development/creating-first-plugin) tutorial.
