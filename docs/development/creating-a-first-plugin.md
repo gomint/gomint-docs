@@ -34,9 +34,9 @@ Annotations:
 
 | Annotation | Type            | Value                                                                                                               |
 |------------|-----------------|---------------------------------------------------------------------------------------------------------------------|
-| PluginName | String          | Your plugin's name                                                                                                  |  
+| PluginName | String          | Your plugin's name                                                                                                  |
 | Version    | int, int        | ```major```, ```minor```                                                                                            |
-| Startup    | StartupPriority | See Enum in [JavaDoc](https://janmm14.de/static/gomint/index.html?gomint.api/io/gomint/plugin/StartupPriority.html) |   
+| Startup    | StartupPriority | See Enum in [JavaDoc](https://janmm14.de/static/gomint/index.html?gomint.api/io/gomint/plugin/StartupPriority.html) |
 
 ```java
 package me.plugincrafter.demo;
@@ -76,10 +76,10 @@ The following methods are inherited from [```Plugin```](https://janmm14.de/stati
 * ```activeInWorld(io.gomint.world.World)``` - Returns whether the plugin should be active in the given world.
 * ```eventInActiveWorlds(io.gomint.event.Event)``` - Returns whether the plugin should be active in the given world.
 * ```activeWorldsSnapshot()``` - Returns a set of currently loaded worlds where the plugin should be active in. Do **not** save it for later use.
-* ```getDataFolder()``` - Returns the data folder for this plugin as a File object.
-* ```getPluginManager()``` - Returns the plugin manager of the GoMint server.
-* ```getName() ``` - Returns the name of this plugin.
-* ```getVersion()``` - Returns the version of this plugin.
-* ```getLogger()``` - Returns the Logger of this plugin.
-* ```getScheduler()``` - Returns the plugin scheduler.
-* ```getServer()``` - Returns an instance of the GoMint server.
+* ```dataFolder()``` - Returns the data folder for this plugin as a File object.
+* ```pluginManager()``` - Returns the plugin manager of the GoMint server.
+* ```name() ``` - Returns the name of this plugin.
+* ```version()``` - Returns the version of this plugin.
+* ```logger()``` - Returns the Logger of this plugin.
+* ```scheduler()``` - Returns the plugin scheduler.
+* ```server()``` - Returns an instance of the GoMint server.
