@@ -5,7 +5,7 @@ sidebar_label: Creating Your First Command
 ---
 ## Prerequisites
 
-This guide assumes that you have a [plugin environment](/docs/development/creating-first-plugin) setup.
+This guide assumes that you have a [plugin environment](creating-a-first-plugin.md) setup.
 If you have not already, follow that guide first.
 
 ## Writing a ```Command``` type
@@ -82,6 +82,39 @@ public class CommandVelocity extends Command {
 }
 ```
 
+## World check and grab Plugin main class
+Due to GoMints plugin world restriction ideas, we should not allow the plugin to run in worlds it should not be active in. We use the [```@InjectPlugin```](https://janmm14.de/static/gomint/index.html?gomint.api/io/gomint/plugin/injection/InjectPlugin.html) annotation here to get our plugin instance into our command; this only works in annotation-defined commands. Commands by players are executed in the world thread of the player, so we do not need to care about this for now.
+
+```java
+@Name("velocity")
+@Description("Give custom velocity to the player who runs it")
+public class CommandVelocity extends Command {
+
+  @InjectPlugin
+  private TestPlugin plugin;
+
+  @Override
+  public void execute(CommandSender commandSender, String alias, Map<String, Object> arguments, CommandOutput output) {
+
+    if (commandSender instanceof PlayerCommandSender) {
+      EntityPlayer player = (EntityPlayer) commandSender;
+      if (!plugin.activeInworld(player.world()) {
+        output.fail("Plugin not active in your world");
+        return;
+      }
+
+      // Now that we have casted the CommandSender to an EntityPlayer, we can use those methods on the object.
+      player.setVelocity(new Vector(0, 2, 0));
+    } else if (commandSender instanceof ConsoleCommandSender) {
+      // TODO: Let's add arguments in a moment!
+    }
+
+    return output;
+  }
+}
+```
+
+
 ## Adding Permissions
 Adding permissions to a command is as simple as adding the permission annotation.
 Supposing that we want to only allow players to use the velocity command if they have the ```velocityplugin.command.velocity```, we can append the annotation to the class declaration:
@@ -120,7 +153,7 @@ The parameter annotation accepts the following fields:
 ```
 
 ### Arguments Passed
-The arguments passed when a command is executed by the player/console are passed to ```execute``` in the Map object ```arguments```. For our velocity command example, we will allow a ```ConsoleCommandSender``` to specify a player's name to apply the velocity to.
+The arguments passed when a command is executed by the player/console are passed to ```execute``` in the Map object ```arguments```. For our velocity command example, we will allow a ```ConsoleCommandSender``` to specify a player's name to apply the velocity to. We also have to schedule our work to the target player's world here, as console commands are running in a different thread.
 
 ```java
     // Continued from above
@@ -130,12 +163,19 @@ The arguments passed when a command is executed by the player/console are passed
       Float velocity_y = (Float) arguments.getOrDefault("velocity_y", 2f);
       Float velocity_z = (Float) arguments.getOrDefault("velocity_z", 0f);
 
-      // If all the parameters were passed, the player will receive the specified velocity.
-      // Otherwise, they will receive a velocity of (x: 0, y: 2, z: 0).
-      player.setVelocity(new Vector(velocity_x, velocity_y, velocity_z));
+      // As we are scheduling the command's world to another thread, command execution ends asynchroniously
+      // We have to mark this and later call markFinished when our command execution is over.
+      output.markAsync();
 
-      // When the velocity was successfully applied to the given player, a messagae will be sent to the ConsoleCommandSender.
-      output.success("Applied velocity to " + player.getNameTag());
+      // Do not edit player's velocity asynchroniously - we schedule to its thread
+      player.world().scheduler().execute(() -> {
+        // If all the parameters were passed, the player will receive the specified velocity.
+        // Otherwise, they will receive a velocity of (x: 0, y: 2, z: 0).
+        player.setVelocity(new Vector(velocity_x, velocity_y, velocity_z));
+
+        // When the velocity was successfully applied to the given player, a message will be sent to the ConsoleCommandSender.
+        output.success("Applied velocity to " + player.getNameTag()).markFinished();
+      });
     }
 ```
 
