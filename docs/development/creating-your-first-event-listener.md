@@ -6,7 +6,7 @@ sidebar_label: Creating Your First Event Listener
 
 ## Prerequisites
 
-This guide assumes that you have a [plugin environment](/docs/development/creating-first-plugin) setup.
+This guide assumes that you have a [plugin environment](creating-a-first-plugin.md) setup.
 If you have not already, follow that guide first.
 
 ## Event Concept
