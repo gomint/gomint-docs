@@ -61,7 +61,7 @@ We changed our minds now and want to prevent explosions from happening. Great th
   }
 ```
 
-## EventHandler options
+## ```@EventHandler``` options
 
 | option          | possible values |
 |-----------------|-----------------|
