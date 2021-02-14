@@ -18,19 +18,19 @@ For your plugin to get informed when an event happens, you need to create a clas
 public class MyFirstEventListener implements EventListener {}
 ```
 
-Now we marked the class for us and the api as event listener. Then we have to register our class to the API. We do that for example in the `onInstall` method in our `TestPlugin` class:
+Now we marked the class for us and the api as event listener. Then we have to register our class to the API. We do that for example in the `onInstall` method in our `TestPlugin` class. Note that we use the method [`registerActiveWorldsListener`](https://janmm14.de/static/gomint/gomint.api/io/gomint/plugin/Plugin.html#registerActiveWorldsListener(io.gomint.event.EventListener)) which automatically filters events so we only get events taking place in any of the [plugin's active worlds](../get-started/plugin-world-restriction.md).
 
 ```java
   @Override
   public void onInstall() {
-    registerListener(new MyFirstEventListener());
+    registerActiveWorldsListener(new MyFirstEventListener());
   }
 ```
 Next up we need to define which event(s) we want to listen to in this event listener.
 This is done simply by creating a method annotated with `@EventHandler` which takes one argument (the event we want to listen to) and returns `void`:
 
 ```java
-public class MyFirstEventHandler implements EventListener {
+public class MyFirstEventListener implements EventListener {
   @EventHandler
   public void onExplode(EntityExplodeEvent event) {
     // this method gets called every time an entity explodes
@@ -42,14 +42,40 @@ Now we just need to implement some logic. We can praise explosions for example w
 
 
 ```java
-public class MyFirstEventHandler implements EventListener {
+public class MyFirstEventListener implements EventListener {
   @EventHandler
   public void onExplode(EntityExplodeEvent event) {
-    GoMint.instance().onlinePlayers().forEach(p -> p.sendMessage("Hooray, " + event.getAffectedBlocks().size() + " are gone!"));
+    GoMint.instance().onlinePlayers().forEach(p -> p.sendMessage("Hooray, " + event.affectedBlocks().size() + " are gone!"));
   }
 }
 ```
 
 ## Cancellable events
 
-We changed our minds now and want to prevent explosions from happening. Great that [EntityExplodeEvent](https://janmm14.de/static/gomint/index.html?gomint.api/io/gomint/event/entity/EntityExplodeEvent.html) extends [CancellableEvent](https://janmm14.de/static/gomint/index.html?gomint.api/io/gomint/event/CancellableEvent.html).
+We changed our minds now and want to prevent explosions from happening. Great that [EntityExplodeEvent](https://janmm14.de/static/gomint/index.html?gomint.api/io/gomint/event/entity/EntityExplodeEvent.html) extends [CancellableEvent](https://janmm14.de/static/gomint/index.html?gomint.api/io/gomint/event/CancellableEvent.html). To cancel events we write this method in our event listener:
+
+```java
+  @EventHandler
+  public void preventExplosions(EntityExplodeEvent event) {
+    event.cancelled(true);
+  }
+```
+
+## EventHandler options
+
+| option          | possible values |
+|-----------------|-----------------|
+| priority        | [EventPriority](https://janmm14.de/static/gomint/index.html?gomint.api/io/gomint/event/EventPriority.html) enum: `LOWEST`, `LOW`, `NORMAL` (default), `HIGH`, `HIGHEST` |
+| ignoreCancelled | <ul><li>`true` method will not be called for cancelled events<br></li><li>`false` (default) method will be called regardless of event cancelled state</li></ul> |
+
+### Details on priority option
+
+We have two event listeners for the same event. So how do we define the order in which they will execute?
+
+This is possible with the priority option of the `@EventHandler` annotation.
+
+```java
+  @EventHandler(priority = EventPriority.HIGHEST)
+```
+
+Priority `LOWEST` is called first, `HIGHEST` will be called last. So you should choose `HIGHEST` if you want to monitor the result of an event, use `HIGH` to override other plugins and use `LOWEST` or `LOW` for changes other plugins who listen on a higher priority should be able to react to.
