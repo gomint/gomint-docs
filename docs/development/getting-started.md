@@ -62,6 +62,7 @@ Example pom.xml file for maven:
 Here is the repository snippet:
 
 <Tabs
+  groupId="gradle-language"
   defaultValue="groovy"
   values={[
     { label: 'Groovy', value: 'groovy', },
@@ -87,6 +88,7 @@ Here is the repository snippet:
 and here is the dependencies snippet:
 
 <Tabs
+  groupId="gradle-language"
   defaultValue="groovy"
   values={[
     { label: 'Groovy', value: 'groovy', },

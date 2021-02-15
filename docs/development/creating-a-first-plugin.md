@@ -8,13 +8,18 @@ sidebar_label: Creating Your First Plugin
 
 1. An understanding of the Java programming language is necessary.
 2. Follow the [Getting Started guide](getting-started.md) to set up the project in your Java IDE (like IntelliJ IDEA or Eclipse).
-3. A test plugin has been created in the GoMint repository and can be browsed [here](https://github.com/gomint/GoMint/tree/master/gomint-test-plugin/src/main/java/io/gomint/testplugin) for another example of what we will be creating.
+
+A test plugin has been created in the GoMint repository and can be browsed [here](https://github.com/gomint/GoMint/tree/master/gomint-test-plugin/src/main/java/io/gomint/testplugin) for another example of what we will be creating.
 
 ## Step One - The ```Plugin``` Type
 
 All plugins for the GoMint server contain a class extending [```io.gomint.plugin.Plugin```](https://janmm14.de/static/gomint/index.html?gomint.api/io/gomint/plugin/Plugin.html)
 where the initialization and cleanup of the plugin will take place, as well as the
 registration of event handlers, new logic, etc. In lieu of a ```main()``` method, the plugin management system handles the initialization of plugins, so it is important that the annotations and types are setup correctly.
+
+:::info
+The class in your plugin extending `Plugin` is often also referred to as *main class* of your plugin.
+:::
 
 ```java
 package me.plugincrafter.demo;
@@ -58,24 +63,26 @@ public class TestPlugin extends Plugin {}
 GoMint is one of the first Minecraft server softwares which have built in world multithreading - each world has its own main thread.
 This means that many actions to worlds and entites need to run in the world's thread.
 
-Additionally GoMint provides an easy-to-use API for plugins to [restrict plugins to certain worlds](../get-started/plugin-world-restriction.md), which **every** plugin should obey to.
+Additionally GoMint provides easy-to-use API for plugins to handle the world multithreading and [restrict plugins to certain worlds](../get-started/plugin-world-restriction.md), which **every** plugin should obey to.
 
 ## ```Plugin``` Available Methods
 
 The following methods are inherited from [```Plugin```](https://janmm14.de/static/gomint/index.html?gomint.api/io/gomint/plugin/Plugin.html) and can be used to install event handlers, listeners, and setup your plugin:
 
-* ```onInstall()``` - Invoked when the plugin enters the runtime stage.
-* ```onStartup()``` - Invoked when the plugin has been installed.
-* ```onUninstall()``` - Invoked when the plugin has been uninstalled.
+* ```onInstall()``` - Invoked when the plugin enters the runtime stage. Meant to be overriden.
+* ```onUninstall()``` - Invoked when the plugin has been uninstalled. Meant to be overriden.
+* ```onStartup()``` - Invoked when the plugin has been installed. Can be overridden if needed.
 * ```isInstalled()``` - Can be invoked to determine if the plugin has been installed yet.
 * ```registerCommand(io.gomint.command.Command)``` - Invoke to register your own commands.
 * ```registerActiveWorldsListener(io.gomint.event.EventListener)``` - Invoke to register your own event listeners, limited to the [worlds your plugin should be active in](../get-started/plugin-world-restriction.md).
 * ```registerListener(io.gomint.event.EventListener)``` - Invoke to register your own global event listeners.
-* ```registerListener(io.gomint.event.EventListener, Predicate<Event>)``` - Invoke to register your own custom-limited event listeners.
+* ```registerListener(io.gomint.event.EventListener, Predicate<io.gomint.event.Event>)``` - Invoke to register your own custom-limited event listeners.
 * ```unregisterListener(io.gomint.event.EventListener)``` - Invoke to remove an event listener.
 * ```activeInWorld(io.gomint.world.World)``` - Returns whether the plugin should be active in the given world.
 * ```eventInActiveWorlds(io.gomint.event.Event)``` - Returns whether the plugin should be active in the given world.
-* ```activeWorldsSnapshot()``` - Returns a set of currently loaded worlds where the plugin should be active in. Do **not** save it for later use.
+* ```activeWorldsSnapshot()``` - Returns a set of _currently_ loaded worlds where the plugin should be active in. Do **not** save it for later use.
+* ```activeWorldsPlayers()``` - Returns a set of players in your plugin's active worlds
+* ```activeWorldsPlayers(Consumer<io.gomint.entity.EntityPlayer>)``` - Calls the given consumer for every player in your plugin's active worlds on the world's thread
 * ```dataFolder()``` - Returns the data folder for this plugin as a File object.
 * ```pluginManager()``` - Returns the plugin manager of the GoMint server.
 * ```name() ``` - Returns the name of this plugin.

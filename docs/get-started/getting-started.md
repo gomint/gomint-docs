@@ -13,9 +13,9 @@ sidebar_label: Getting Started
 ## Basic Configuration
 <!-- TODO: Anything that you need to do to get the server running. -->
 
-## Concluding Thoughts
-
 You may want to visit the next tutorial about [configuring](general-configuration.md) your new server.
+
+## Concluding Thoughts
 
 If you want to know more about gomint's unique world system, visit the [Plugin World Restrictions](plugin-world-restriction.md) information page.
 

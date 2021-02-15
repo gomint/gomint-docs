@@ -12,6 +12,11 @@ If you have not already, follow that guide first.
 ## Event Concept
 
 Many actions done by players, blocks or mobs trigger an event. Technically: a class extending `Event`. Events allow you to know, edit or cancel default behaviour.
+
+:::note
+If not otherwise noted in the specifics event javadoc, events are called on the source world thread if they implement [`WorldEvent`](https://janmm14.de/static/gomint/index.html?gomint.api/io/gomint/event/interfaces/WorldEvent.html).
+:::
+
 For your plugin to get informed when an event happens, you need to create a class implementing `EventListener` (a marker interface):
 
 ```java
@@ -26,8 +31,13 @@ Now we marked the class for us and the api as event listener. Then we have to re
     registerActiveWorldsListener(new MyFirstEventListener());
   }
 ```
+
 Next up we need to define which event(s) we want to listen to in this event listener.
-This is done simply by creating a method annotated with `@EventHandler` which takes one argument (the event we want to listen to) and returns `void`:
+This is done simply by creating a method annotated with `@EventHandler` which takes one argument (the event we want to listen to):
+
+:::note
+Event handling methods need to return `void`. Their visibility must be `public` or package-private. 
+:::
 
 ```java
 public class MyFirstEventListener implements EventListener {
@@ -39,7 +49,6 @@ public class MyFirstEventListener implements EventListener {
 ```
 
 Now we just need to implement some logic. We can praise explosions for example with a chat message sent to every player:
-
 
 ```java
 public class MyFirstEventListener implements EventListener {
