@@ -90,3 +90,8 @@ The following methods are inherited from [```Plugin```](https://janmm14.de/stati
 * ```logger()``` - Returns the Logger of this plugin.
 * ```scheduler()``` - Returns the plugin scheduler.
 * ```server()``` - Returns an instance of the GoMint server.
+
+## Next up
+
+[Create your first command](creating-your-first-command.md)
+[Create your first event listener](creating-your-first-event-listener.md)

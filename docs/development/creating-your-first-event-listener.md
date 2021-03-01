@@ -23,12 +23,12 @@ For your plugin to get informed when an event happens, you need to create a clas
 public class MyFirstEventListener implements EventListener {}
 ```
 
-Now we marked the class for us and the api as event listener. Then we have to register our class to the API. We do that for example in the `onInstall` method in our `TestPlugin` class. Note that we use the method [`registerActiveWorldsListener`](https://janmm14.de/static/gomint/gomint.api/io/gomint/plugin/Plugin.html#registerActiveWorldsListener(io.gomint.event.EventListener)) which automatically filters events so we only get events taking place in any of the [plugin's active worlds](../get-started/plugin-world-restriction.md).
+Now we marked the class for us and the api as event listener. Then we have to register our class to the API. We do that for example in the `onInstall` method in our `TestPlugin` class. Events implementing `WorldEvent` are filtered by gomint so we only get events taking place in any of our [plugin's active worlds](../get-started/plugin-world-restriction.md).
 
 ```java
   @Override
   public void onInstall() {
-    registerActiveWorldsListener(new MyFirstEventListener());
+    registerListener(new MyFirstEventListener());
   }
 ```
 
@@ -75,7 +75,7 @@ We changed our minds now and want to prevent explosions from happening. Great th
 | option          | possible values |
 |-----------------|-----------------|
 | priority        | [EventPriority](https://janmm14.de/static/gomint/index.html?gomint.api/io/gomint/event/EventPriority.html) enum: `LOWEST`, `LOW`, `NORMAL` (default), `HIGH`, `HIGHEST` |
-| ignoreCancelled | <ul><li>`true` method will not be called for cancelled events<br></li><li>`false` (default) method will be called regardless of event cancelled state</li></ul> |
+| ignoreCancelled | <ul><li>`true` - method will not be called for cancelled events</li><li>`false` - (default) method will be called regardless of event cancelled state</li></ul> |
 
 ### Details on priority option
 

@@ -24,9 +24,6 @@ Commands in GoMint are based on annotations and injection. There are two require
 |-----------------------|-----------------|----------------------------------------------------------------------------------------|-----------|-------------|
 | Name                  | String          | The command's name                                                                     | Yes       | No          |
 | Description           | String          | A description of the command                                                           | Yes       | No          |
-| Scope                 |                 | Where the command will be available                                                    | No        | No          |
-|  - `activeWorldsOnly` | boolean         | If the command is only available to players in plugin's active worlds. Default: `true` | No        | No          |
-|  - `console`          | boolean         | If the command is available to the console. Default: `true`                            | No        | No          |
 | Alias                 | String          | An alias for the command that will also execute it                                     | No        | Yes         |
 | Permission            | String          | The permission required for the command to execute                                     | No        | No          |
 | Overload              | ...             | See [overload annotation](#overload) information                                       | No        | Yes         |
@@ -70,7 +67,6 @@ public class CommandVelocity extends Command {
       EntityPlayer player = (EntityPlayer) commandSender;
 
       // Now that we have casted the CommandSender to an EntityPlayer, we can use those methods on the object.
-      // Commands from players are executed on player'S current world thread, so we do not need to care about that for now.
       player.setVelocity(new Vector(0, 2, 0));
     } else if (commandSender instanceof ConsoleCommandSender) {
       // TODO: Let's add arguments in a moment!
@@ -78,6 +74,10 @@ public class CommandVelocity extends Command {
   }
 }
 ```
+
+:::note
+Commands from players are executed on player's current world thread. This means manipulating the player and its world is ok to do.
+:::
 
 ## Get Plugin class
 If we need the Plugin class, we can use the [```@InjectPlugin```](https://janmm14.de/static/gomint/index.html?gomint.api/io/gomint/plugin/injection/InjectPlugin.html) annotation on a field with the type of our Plugin class; this only works in annotation-defined commands.
@@ -112,7 +112,9 @@ When using arguments, we can validate their type as well as assign them names. T
 
 For arguments, the ```Overload``` annotation is used. Within this annotation, ```Parameter``` annotations can be used to define a name for the arguments passed, a validator to use, and specify whether or not the parameter is optional.
 
-__Note:__ _For each ```Overload``` annotation, your command will have a different way to organize parameters. Multiple ```Overload``` annotations can be summarized by using the ```Overloads``` annotation._
+:::note
+For each ```Overload``` annotation, your command will have a different way to organize parameters. Multiple ```Overload``` annotations can (but don't have to) be summarized by using the ```Overloads``` annotation.
+:::
 
 The parameter annotation accepts the following fields:
 * ```name``` - String: The name of the parameter (stored as a key in the ```arguments``` map)
@@ -158,7 +160,7 @@ The arguments passed when a command is executed by the player/console are passed
 ```
 
 :::danger
-Most player and world access and editing methods require that you call them from the (player's) world's thread. Not doing so will throw an exception in runtime.
+Commands issued by the console are not ran in any world's thread. Most player and world access and editing methods require that you call them from the (player's) world's thread. Not doing so will throw an exception in runtime.
 :::
 
 ## Additional Information
@@ -200,7 +202,7 @@ Calling not repeatable methods again will overwrite the existing value.
 
 Each call to `overload()` will add a new overload to your method. By default the overload is empty. To add a parameter you have to call the `param(...)` functions on the return `ComandOverload` object.
 
-The param function takes the name of parameter first, next up is the ParamValidator. The third argument is the optional boolean, which is itself optional and defaults to false as well.
+The param function takes the name of parameter first, next up is the ParamValidator. The third argument is the optional boolean, which is itself optional and defaults to false.
 The ParamValidator needs to be instantiated here instead of it's class given.
 
 ```java
