@@ -5,7 +5,7 @@ sidebar_label: Creating Your First Command
 ---
 ## Prerequisites
 
-This guide assumes that you have a [plugin environment](/docs/development/creating-first-plugin) setup.
+This guide assumes that you have a [plugin environment](creating-a-first-plugin.md) setup.
 If you have not already, follow that guide first.
 
 ## Writing a ```Command``` type
@@ -20,13 +20,13 @@ public class CommandVelocity extends Command {}
 
 Commands in GoMint are based on annotations and injection. There are two required annotations that each command must have, but the full list of annotations for commands are below. GoMint will detect all classes in your plugin which extend `Command` and have at least the required annotations and will automatically create an instance and register it. For custom conditions on command registration you need to use [methods for describing your command](#commandmethod) instead.
 
-| Annotation  | Type            | Value                                              | Required? | Repeatable? |
-|-------------|-----------------|----------------------------------------------------|-----------|-------------|
-| Name        | String          | The command's name                                 | Yes       | No          |
-| Description | String          | A description of the command                       | Yes       | No          |
-| Alias       | String          | An alias for the command that will also execute it | No        | Yes         |
-| Permission  | String          | The permission required for the command to execute | No        | No          |
-| Overload    | ...             | See [overload annotation](#overload) information   | No        | Yes         |
+| Annotation            | Type            | Value                                                                                  | Required? | Repeatable? |
+|-----------------------|-----------------|----------------------------------------------------------------------------------------|-----------|-------------|
+| Name                  | String          | The command's name                                                                     | Yes       | No          |
+| Description           | String          | A description of the command                                                           | Yes       | No          |
+| Alias                 | String          | An alias for the command that will also execute it                                     | No        | Yes         |
+| Permission            | String          | The permission required for the command to execute                                     | No        | No          |
+| Overload              | ...             | See [overload annotation](#overload) information                                       | No        | Yes         |
 
 The next step to writing your command is to add the necessary annotations to the class:
 
@@ -47,10 +47,7 @@ which must be overridden from ```io.gomint.command.Command``` type. Our ```Comma
 public class CommandVelocity extends Command {
 
   @Override
-  public CommandOutput execute(CommandSender commandSender, String alias, Map<String, Object> arguments) {
-    CommandOutput output = new CommandOutput();
-
-    return output;
+  public void execute(CommandSender commandSender, String alias, Map<String, Object> arguments, CommandOutput output) {
   }
 }
 ```
@@ -65,9 +62,7 @@ It is important to verify that the sender was the correct type before performing
 public class CommandVelocity extends Command {
 
   @Override
-  public CommandOutput execute(CommandSender commandSender, String alias, Map<String, Object> arguments) {
-    CommandOutput output = new CommandOutput();
-
+  public void execute(CommandSender commandSender, String alias, Map<String, Object> arguments, CommandOutput output) {
     if (commandSender instanceof PlayerCommandSender) {
       EntityPlayer player = (EntityPlayer) commandSender;
 
@@ -76,11 +71,27 @@ public class CommandVelocity extends Command {
     } else if (commandSender instanceof ConsoleCommandSender) {
       // TODO: Let's add arguments in a moment!
     }
-
-    return output;
   }
 }
 ```
+
+:::note
+Commands from players are executed on player's current world thread. This means manipulating the player and its world is ok to do.
+:::
+
+## Get Plugin class
+If we need the Plugin class, we can use the [```@InjectPlugin```](https://janmm14.de/static/gomint/index.html?gomint.api/io/gomint/plugin/injection/InjectPlugin.html) annotation on a field with the type of our Plugin class; this only works in annotation-defined commands.
+
+```java
+@Name("velocity")
+@Description("Give custom velocity to the player who runs it")
+public class CommandVelocity extends Command {
+
+  @InjectPlugin
+  private TestPlugin plugin;
+}
+```
+
 
 ## Adding Permissions
 Adding permissions to a command is as simple as adding the permission annotation.
@@ -101,7 +112,9 @@ When using arguments, we can validate their type as well as assign them names. T
 
 For arguments, the ```Overload``` annotation is used. Within this annotation, ```Parameter``` annotations can be used to define a name for the arguments passed, a validator to use, and specify whether or not the parameter is optional.
 
-__Note:__ _For each ```Overload``` annotation, your command will have a different way to organize parameters. Multiple ```Overload``` annotations can be summarized by using the ```Overloads``` annotation._
+:::note
+For each ```Overload``` annotation, your command will have a different way to organize parameters. Multiple ```Overload``` annotations can (but don't have to) be summarized by using the ```Overloads``` annotation.
+:::
 
 The parameter annotation accepts the following fields:
 * ```name``` - String: The name of the parameter (stored as a key in the ```arguments``` map)
@@ -112,15 +125,15 @@ The parameter annotation accepts the following fields:
 ```java
 // Our velocity command should be able to accept a parameter for a player name and the specified velocity they should receive.
 @Overload({
-  @Parameter(name = "player", validator = TargetValidator.class, optional = true)
-  @Parameter(name = "velocity_x", validator = FloatValidator.class, optional = true)
-  @Parameter(name = "velocity_y", validator = FloatValidator.class, optional = true)
+  @Parameter(name = "player", validator = TargetValidator.class, optional = true),
+  @Parameter(name = "velocity_x", validator = FloatValidator.class, optional = true),
+  @Parameter(name = "velocity_y", validator = FloatValidator.class, optional = true),
   @Parameter(name = "velocity_z", validator = FloatValidator.class, optional = true)
 })
 ```
 
 ### Arguments Passed
-The arguments passed when a command is executed by the player/console are passed to ```execute``` in the Map object ```arguments```. For our velocity command example, we will allow a ```ConsoleCommandSender``` to specify a player's name to apply the velocity to.
+The arguments passed when a command is executed by the player/console are passed to ```execute``` in the Map object ```arguments```. For our velocity command example, we will allow a ```ConsoleCommandSender``` to specify a player's name to apply the velocity to. We also have to schedule our work to the target player's world here, as console commands are running in a different thread.
 
 ```java
     // Continued from above
@@ -130,14 +143,25 @@ The arguments passed when a command is executed by the player/console are passed
       Float velocity_y = (Float) arguments.getOrDefault("velocity_y", 2f);
       Float velocity_z = (Float) arguments.getOrDefault("velocity_z", 0f);
 
-      // If all the parameters were passed, the player will receive the specified velocity.
-      // Otherwise, they will receive a velocity of (x: 0, y: 2, z: 0).
-      player.setVelocity(new Vector(velocity_x, velocity_y, velocity_z));
+      // As we are scheduling the command's world to another thread, command execution ends asynchroniously
+      // We have to mark this and later call markFinished() when our command execution is over.
+      output.markAsync();
 
-      // When the velocity was successfully applied to the given player, a messagae will be sent to the ConsoleCommandSender.
-      output.success("Applied velocity to " + player.getNameTag());
+      // Cannot not edit player's velocity asynchroniously - we schedule to player's world thread
+      player.world().scheduler().execute(() -> {
+        // If all the parameters were passed, the player will receive the specified velocity.
+        // Otherwise, they will receive a velocity of (x: 0, y: 2, z: 0).
+        player.setVelocity(new Vector(velocity_x, velocity_y, velocity_z));
+
+        // When the velocity was successfully applied to the given player, a message will be sent to the ConsoleCommandSender.
+        output.success("Applied velocity to " + player.getNameTag()).markFinished(); // markFinished() is required after calling markAsync()
+      });
     }
 ```
+
+:::danger
+Commands issued by the console are not ran in any world's thread. Most player and world access and editing methods require that you call them from the (player's) world's thread. Not doing so will throw an exception in runtime.
+:::
 
 ## Additional Information
 ### <span id="commandmethod"></span>  Adding Commands Using Methods
@@ -157,10 +181,7 @@ public class CommandVelocity extends Command {
   }
 
   @Override
-  public CommandOutput execute(CommandSender commandSender, String alias, Map<String, Object> arguments) {
-    CommandOutput output = new CommandOutput();
-
-    return output;
+  public CommandOutput execute(CommandSender commandSender, String alias, Map<String, Object> arguments, CommandOutput output) {
   }
 }
 ```
@@ -181,17 +202,17 @@ Calling not repeatable methods again will overwrite the existing value.
 
 Each call to `overload()` will add a new overload to your method. By default the overload is empty. To add a parameter you have to call the `param(...)` functions on the return `ComandOverload` object.
 
-The param function takes the name of parameter first, next up is the ParamValidator. The third argument is the optional boolean, which is itself optional and defaults to false as well.
-The ParamValidator needs to be instantiated here instead of it's class.
+The param function takes the name of parameter first, next up is the ParamValidator. The third argument is the optional boolean, which is itself optional and defaults to false.
+The ParamValidator needs to be instantiated here instead of it's class given.
 
 ```java
-public CommandVelocity() {
-  super("velocity");
-  description("Give custom velocity to the player who runs it");
-  permission("velocityplugin.command.velocity");
-  overload().param("player", new TargetValidator(), true)
-      .param("velocity_x", new FloatValidator(), true)
-      .param("velocity_y", new FloatValidator(), true)
-      .param("velocity_z", new FloatValidator(), true);
+  public CommandVelocity() {
+    super("velocity");
+    description("Give custom velocity to the player who runs it");
+    permission("velocityplugin.command.velocity");
+    overload().param("player", new TargetValidator(), true)
+        .param("velocity_x", new FloatValidator(), true)
+        .param("velocity_y", new FloatValidator(), true)
+        .param("velocity_z", new FloatValidator(), true);
 }
 ```

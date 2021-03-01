@@ -6,14 +6,14 @@ sidebar_label: Index of Guides
 
 ## Introductory Guides
 
-* [Getting Started](/docs/get-started/getting-started)
-* [Configuring Server](/docs/get-started/general-configuration)
+* [Getting Started](get-started/getting-started.md)
+* [Configuring Server](get-started/general-configuration.md)
 
 ## API Guides
 
-* [API Introduction](/docs/development/getting-started)
-* [Writing Your First Plugin](/docs/development/creating-first-plugin)
-* [Writing Your First Command](/docs/development/creating-your-first-command)
+* [Set up your work space](development/getting-started.md)
+* [Writing Your First Plugin](development/creating-a-first-plugin.md)
+* [Writing Your First Command](development/creating-your-first-command.md)
 
 ### Resources
 * [Javadoc](https://s.janmm14.de/gomint-javadoc)
